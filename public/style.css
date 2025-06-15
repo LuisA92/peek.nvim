@@ -129,12 +129,9 @@ body::-webkit-scrollbar-thumb {
   fill: #0d1117 !important;
 }
 
-.peek-mermaid-container svg {
-  display: block;
-  width: 100%;
-}
 .peek-mermaid-container:has(svg) {
   height: auto !important;
+  width: 100% !important;
 }
 
 /* Target mermaid loader containers */
