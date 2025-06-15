@@ -134,7 +134,7 @@ body::-webkit-scrollbar-thumb {
 .peek-mermaid-container > div,
 .peek-mermaid-container > div[data-graph="mermaid"] {
   max-width: 100% !important;
-  width: 100% !important;
+  width: fit-content;
   margin: 0 auto;
   display: block;
 }
