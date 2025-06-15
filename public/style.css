@@ -103,7 +103,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-
 /* Target any remaining rect elements in mermaid */
 .mermaid rect[style*="fill"],
 .peek-mermaid-container rect[style*="fill"] {
@@ -136,10 +135,18 @@ body::-webkit-scrollbar-thumb {
 
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
-  background-color: #0d1117 !important;
   position: relative;
   height: 100%;
   min-height: 50px;
+}
+
+/* Fix remaining mermaid wrapper space */
+div[data-graph='mermaid'] {
+  background-color: #0d1117 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  display: block;
 }
 
 #peek-zoom-label {
@@ -337,6 +344,7 @@ th code {
   margin: 0;
   padding: 0;
   background-color: transparent !important;
+  border: none !important;
 }
 
 .yaml-metadata code {
