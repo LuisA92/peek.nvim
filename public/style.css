@@ -133,7 +133,7 @@ body::-webkit-scrollbar-thumb {
 .peek-mermaid-container,
 .peek-mermaid-container > div,
 .peek-mermaid-container > div[data-graph="mermaid"] {
-  /*max-width: 100% !important;*/
+  max-width: 100% !important;
   margin: 0 auto;
   display: block;
   background-color: #0d1117 !important;
