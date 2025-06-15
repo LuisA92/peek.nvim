@@ -129,7 +129,9 @@ body::-webkit-scrollbar-thumb {
   fill: #0d1117 !important;
 }
 
+
 .peek-mermaid-container:has(svg) {
+  display: block;
   height: auto !important;
   width: 100% !important;
 }
