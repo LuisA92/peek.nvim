@@ -8,6 +8,7 @@ import { default as MarkdownItFootnote } from 'https://esm.sh/markdown-it-footno
 import { default as MarkdownItTaskLists } from 'https://esm.sh/markdown-it-task-lists@2.1.1';
 import { default as MarkdownItTexmath } from 'https://esm.sh/markdown-it-texmath@1.0.0';
 import Katex from 'https://esm.sh/katex@0.16.9';
+import yaml from 'https://esm.sh/js-yaml@4.1.0';
 
 const __args = parseArgs(Deno.args);
 
@@ -130,13 +131,44 @@ md.renderer.rules.fence = (() => {
 })();
 
 export function render(markdown: string) {
-  const tokens = md.parse(markdown, {});
+  let metadataHTML = '';
+  const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
 
+  const match = markdown.match(frontmatterRegex);
+  if (match) {
+    const yamlContent = match[1];
+    try {
+      const metadata = yaml.load(yamlContent);
+      metadataHTML = `<section class="yaml-metadata">${renderMetadataHTML(metadata)}</section>`;
+    } catch (err) {
+      console.error("YAML parsing error:", err);
+    }
+
+    // Remove the frontmatter from markdown before parsing
+    markdown = markdown.slice(match[0].length).trimStart();
+  }
+
+  const tokens = md.parse(markdown, {});
   tokens.forEach((token) => {
     if (token.map && token.level === 0) {
       token.attrSet('data-line-begin', String(token.map[0] + 1));
     }
   });
 
-  return md.renderer.render(tokens, md.options, { genId: uniqueIdGen() });
+  const contentHTML = md.renderer.render(tokens, md.options, { genId: uniqueIdGen() });
+
+  return metadataHTML + contentHTML;
+}
+
+function renderMetadataHTML(metadata: Record<string, any>): string {
+  const escapeHtml = md.utils.escapeHtml;
+
+  return `
+    <dl>
+      ${Object.entries(metadata).map(([key, value]) => `
+        <dt>${escapeHtml(key)}</dt>
+        <dd>${Array.isArray(value) ? escapeHtml(value.join(', ')) : escapeHtml(String(value))}</dd>
+      `).join('')}
+    </dl>
+  `;
 }
