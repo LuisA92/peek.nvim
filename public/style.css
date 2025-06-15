@@ -201,34 +201,7 @@ div[data-graph='mermaid']:has(> .peek-loader) {
   background-color: var(--color-prettylights-syntax-markup-deleted-bg);
 }
 
-/* YAML Metadata Styling (monospace + compact) */
-.yaml-metadata {
-  margin: 1em 0;
-  padding: 0.75em 1em;
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #c9d1d9;
-  white-space: pre;
-}
 
-.yaml-metadata pre {
-  margin: 0;
-  background: none;
-  padding: 0;
-  background-color: rgba(255, 255, 255, 0.04) !important;
-}
-
-.yaml-metadata code {
-  background: none;
-  color: inherit;
-  padding: 0;
-  display: block;
-  background-color: rgba(255, 255, 255, 0.04) !important;
-}
 
 
 /* Enhanced code block styling - add these rules to your existing CSS */
@@ -306,4 +279,29 @@ th code {
   color: #c9d1d9;
   padding: 2px 4px;
   border-radius: 3px;
+}
+
+/* YAML Metadata Styling (monospace + compact) */
+.yaml-metadata {
+  margin: 1em 0;
+  padding: 0.75em 1em;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #c9d1d9;
+  white-space: pre;
+}
+
+.yaml-metadata pre {
+  margin: 0;
+  padding: 0;
+}
+
+.yaml-metadata code {
+  color: inherit;
+  padding: 0;
+  display: block;
 }
