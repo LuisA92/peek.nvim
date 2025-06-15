@@ -104,7 +104,7 @@ body::-webkit-scrollbar-thumb {
 .peek-mermaid-container > div,
 .peek-mermaid-container > div[data-graph="mermaid"] {
   max-width: 100% !important;
-  width: 100%;
+  width: fit-content;
   margin: 0 auto;
   display: block;
 }
@@ -118,8 +118,6 @@ body::-webkit-scrollbar-thumb {
   display: block;
   width: 100% !important;
   height: auto !important;
-  max-width: 100%;
-  margin: 0 auto; 
 }
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
