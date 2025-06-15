@@ -209,6 +209,7 @@ div[data-graph='mermaid']:has(> .peek-loader) {
   color: inherit;
   padding: 0;
   display: block;
+  background-color: transparent !important;
 }
 
 
