@@ -96,7 +96,7 @@ body::-webkit-scrollbar-thumb {
   height: auto !important;
   max-width: 100%;
   margin: 0 auto;
-  background-color: transparent !important;
+  background-color: #0d1117 !important;
 }
 
 /* === Restore previously working background patch === */
