@@ -131,11 +131,13 @@ body::-webkit-scrollbar-thumb {
 
 
 .peek-mermaid-container:has(svg) {
-  display: block;
   height: auto !important;
   width: 100% !important;
 }
-
+.peek-mermaid-container svg {
+  display: block;
+  width: 100% !important;
+}
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
   position: relative;
