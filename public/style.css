@@ -61,21 +61,13 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-/* Target mermaid SVG elements */
-.mermaid svg,
-.peek-mermaid-container svg,
-[data-graph="mermaid"] svg {
-  background-color: #0d1117 !important;
-}
-
+/* Mermaid container (outer shell) */
 .peek-mermaid-container {
-  margin: 1.25em 0; /* Add vertical space above and below */
-  padding: 12px;
+  margin: 1.5em 0;
+  padding: 1em;
   border-radius: 6px;
-  overflow: auto;
-  line-height: 1.45;
-  font-size: 85%;
   background-color: #0d1117 !important;
+  overflow-x: auto;
   font-family:
     ui-monospace,
     SFMono-Regular,
@@ -85,82 +77,54 @@ body::-webkit-scrollbar-thumb {
     Liberation Mono,
     monospace;
 }
-/* Target mermaid diagram backgrounds */
+
+/* Ensure the graph host div is constrained properly */
+.peek-mermaid-container > div[data-graph='mermaid'] {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #0d1117 !important;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+/* Force svg layout to be readable and occupy natural space */
+.peek-mermaid-container svg {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: transparent !important;
+}
+
+/* Mermaid background fix (diagram canvas + ghost layers) */
 .mermaid .background,
 .mermaid rect.background,
-.mermaid g.background {
-  fill: #0d1117 !important;
-}
-
-/* Target mermaid flowchart backgrounds */
+.mermaid g.background,
 .mermaid .flowchart-background,
-.mermaid .cluster rect {
-  fill: #0d1117 !important;
-}
-
-
-/* Target any remaining rect elements in mermaid */
-.mermaid rect[style*="fill"],
-.peek-mermaid-container rect[style*="fill"] {
-  fill: #0d1117 !important;
-}
-
-/* Target mermaid flowchart subgraph backgrounds */
+.mermaid .cluster rect,
 .mermaid .subgraph-background,
-.mermaid rect[id*="subgraph"],
-.mermaid g[id*="subgraph"] rect {
+.mermaid g[id*="cluster"] rect,
+.mermaid g[id*="subgraph"] rect,
+.mermaid rect[fill]:not([fill="none"]) {
   fill: #0d1117 !important;
 }
 
-/* Target mermaid cluster and group backgrounds */
-.mermaid .cluster-background,
-.mermaid g.cluster > rect,
-.mermaid g[id*="cluster"] rect {
-  fill: #0d1117 !important;
-}
-
-/* Force all mermaid rect backgrounds */
-.mermaid rect[fill]:not([fill="none"]),
-.peek-mermaid-container rect[fill]:not([fill="none"]) {
-  fill: #0d1117 !important;
-}
-
-/* Prevent oversized ghost container beside mermaid graphs */
-.peek-mermaid-container,
-.peek-mermaid-container > div,
-.peek-mermaid-container > div[data-graph="mermaid"] {
-  max-width: 100% !important;
-  width: fit-content;
-  margin: 0 auto;
-  display: block;
-}
-
-.peek-mermaid-container:has(svg) {
-  height: auto !important;
-  width: 100% !important;
-}
-
-.peek-mermaid-container svg {
-  width: auto !important;
-  max-width: 100% !important;
-  height: auto !important;
-  display: block;
-}
-
-/* Target mermaid loader containers */
-div[data-graph='mermaid']:has(> .peek-loader) {
-  position: relative;
-  height: 100%;
-  min-height: 50px;
-}
-
-/* Fix remaining mermaid wrapper space */
-div[data-graph='mermaid'] {
-  background-color: #0d1117 !important;
-  margin: 0 !important;
+/* Remove any extra padding added by Mermaid */
+.mermaid {
   padding: 0 !important;
-  border: none !important;
-  display: block;
+  margin: 0 !important;
+}
+
+/* Mermaid loader placeholder area */
+div[data-graph='mermaid']:has(> .peek-loader) {
+  background-color: #0d1117 !important;
+  min-height: 60px;
+  height: auto;
+  position: relative;
 }
 
 #peek-zoom-label {
