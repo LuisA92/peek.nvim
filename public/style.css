@@ -218,7 +218,7 @@ pre {
 
 pre code {
   background: none;
-  color: inherit;
+  background-color:#0d1117;
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
   font-size: 13px;
   line-height: 1.5;
