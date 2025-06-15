@@ -85,6 +85,7 @@ body::-webkit-scrollbar-thumb {
     Liberation Mono,
     monospace;
   word-wrap: normal;
+  background-color: var(--color-canvas-subtle);
 }
 
 
