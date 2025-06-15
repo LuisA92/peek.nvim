@@ -60,6 +60,35 @@ body::-webkit-scrollbar-thumb {
   animation-direction: alternate-reverse;
 }
 
+
+/* Target mermaid SVG elements */
+.mermaid svg,
+.peek-mermaid-container svg,
+[data-graph="mermaid"] svg {
+  background-color: #0d1117 !important;
+}
+
+.peek-mermaid-container {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  line-height: 1.45;
+  font-size: 85%;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+  word-wrap: normal;
+  background-color: #0d1117 !important;
+}
+
+
 /* Target mermaid diagram backgrounds */
 .mermaid .background,
 .mermaid rect.background,
@@ -72,6 +101,7 @@ body::-webkit-scrollbar-thumb {
 .mermaid .cluster rect {
   fill: #0d1117 !important;
 }
+
 
 /* Target any remaining rect elements in mermaid */
 .mermaid rect[style*="fill"],
@@ -99,24 +129,15 @@ body::-webkit-scrollbar-thumb {
   fill: #0d1117 !important;
 }
 
-/* Prevent oversized ghost container beside mermaid graphs */
-.peek-mermaid-container,
-.peek-mermaid-container > div,
-.peek-mermaid-container > div[data-graph="mermaid"] {
-  max-width: 100% !important;
-  width: fit-content;
-  margin: 0 auto;
-  display: block;
-}
-
-.peek-mermaid-container:has(svg) {
-  height: auto !important;
-  width: 100% !important;
-}
 .peek-mermaid-container svg {
   display: block;
   width: 100% !important;
 }
+.peek-mermaid-container:has(svg) {
+  height: auto !important;
+  width: 100% !important;
+}
+
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
   position: relative;
@@ -132,6 +153,7 @@ div[data-graph='mermaid'] {
   border: none !important;
   display: block;
 }
+
 #peek-zoom-label {
   position: fixed;
   top: 30px;
