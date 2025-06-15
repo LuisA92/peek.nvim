@@ -102,6 +102,12 @@ body::-webkit-scrollbar-thumb {
   fill: #0d1117 !important;
 }
 
+/* Target any remaining rect elements in mermaid */
+.mermaid rect[style*="fill"],
+.peek-mermaid-container rect[style*="fill"] {
+  fill: #0d1117 !important;
+}
+
 .peek-mermaid-container:has(svg) {
   height: auto !important;
 }
@@ -315,5 +321,6 @@ th code {
   color: inherit;
   padding: 0;
   display: block;
-  background-color: transparent;
+  background-color: transparent !important;
+  border: none;
 }
