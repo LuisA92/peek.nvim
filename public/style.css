@@ -60,7 +60,7 @@ body::-webkit-scrollbar-thumb {
   animation-direction: alternate-reverse;
 }
 
-/* === Mermaid Block Container === */
+/* === Mermaid Container === */
 .peek-mermaid-container {
   margin: 1.5em 0;
   padding: 1em;
@@ -77,65 +77,62 @@ body::-webkit-scrollbar-thumb {
     monospace;
 }
 
-/* === Graph host container — no margin/padding ghosting === */
-.peek-mermaid-container > div[data-graph='mermaid'] {
+/* === Inner host DIV (prevents ghost bars) === */
+.peek-mermaid-container > div[data-graph="mermaid"] {
   display: block;
-  max-width: 100%;
-  width: 100%;
-  overflow: hidden;
+  width: auto !important;       /* let it size to content */
+  max-width: 100% !important;   /* but never overflow */
+  margin: 0 auto;               /* center if narrower */
+  padding: 0 !important;
   background-color: #0d1117 !important;
-  padding: 0;
-  margin: 0;
-  border: none;
+  border: none !important;
 }
 
-/* === SVG sizing === */
+/* === SVG Sizing === */
 .peek-mermaid-container svg {
   display: block;
-  width: 100% !important;
-  height: auto !important;
-  max-width: 100%;
+  width: auto !important;       /* natural width */
+  max-width: 100% !important;   /* clamp to container */
+  height: auto !important;      /* respect aspect ratio */
   margin: 0 auto;
+  background-color: transparent !important;
+}
+
+/* === Loader Placeholder === */
+div[data-graph="mermaid"]:has(> .peek-loader) {
   background-color: #0d1117 !important;
+  min-height: 60px;
+  position: relative;
 }
 
-/* === Restore previously working background patch === */
+/* === Force Every Fillable Rect to Your Dark BG === */
 .mermaid rect[style*="fill"],
-.peek-mermaid-container rect[style*="fill"] {
-  fill: #0d1117 !important;
-}
-
-/* === Redundant but safe: all fill-bearing rects === */
+.peek-mermaid-container rect[style*="fill"],
 .mermaid rect[fill]:not([fill="none"]),
 .peek-mermaid-container rect[fill]:not([fill="none"]) {
   fill: #0d1117 !important;
 }
 
-/* === Target common mermaid subgroups === */
+/* === Also Catch All the Usual Background Classes === */
 .mermaid .background,
 .mermaid rect.background,
 .mermaid g.background,
 .mermaid .flowchart-background,
 .mermaid .cluster rect,
 .mermaid .subgraph-background,
-.mermaid rect[id*="subgraph"],
 .mermaid g[id*="subgraph"] rect,
-.mermaid g[id*="cluster"] rect {
+.mermaid g.cluster > rect {
   fill: #0d1117 !important;
 }
 
-/* === Loader placeholder === */
-div[data-graph='mermaid']:has(> .peek-loader) {
-  background-color: #0d1117 !important;
-  min-height: 60px;
-  height: auto;
-  position: relative;
+/* === Ensure No Extra Padding/Margin from Mermaid Itself === */
+.mermaid {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-/* === Handle gap under .peek-mermaid-container === */
+/* === Add Some Space Below a Rendered SVG === */
 .peek-mermaid-container:has(svg) {
-  height: auto !important;
-  width: 100% !important;
   margin-bottom: 1em;
 }
 
