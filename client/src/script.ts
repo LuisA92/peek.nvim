@@ -218,7 +218,31 @@ addEventListener('DOMContentLoaded', () => {
 
     return (data: { html: string; lcount: number }) => {
       source = { lcount: data.lcount };
-      morphdom(markdownBody, `<main>${data.html}</main>`, morphdomOptions);
+      const style = `
+        <style>
+          .yaml-metadata {
+            margin: 1em 0;
+            padding: 1em;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+          }
+          .yaml-metadata dl {
+            margin: 0;
+          }
+          .yaml-metadata dt {
+            font-weight: 600;
+            margin-top: 0.5em;
+          }
+          .yaml-metadata dd {
+            margin: 0 0 0.5em 1em;
+          }
+        </style>
+      `;
+      morphdom(markdownBody, `<main>${style}${data.html}</main>`, morphdomOptions);
     };
   })();
 
