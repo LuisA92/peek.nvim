@@ -205,3 +205,23 @@ div[data-graph='mermaid']:has(> .peek-loader) {
   padding: 0;
   display: block;
 }
+
+
+/* Global code block styling */
+pre {
+  background-color: #0c0e14;
+  border-radius: 6px;
+  padding: 0.75em 1em;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  display: block;
+  padding: 0;
+}
