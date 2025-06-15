@@ -61,9 +61,33 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-
-
-
+.peek-mermaid-container {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  line-height: 1.45;
+  font-size: 85%;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+  word-wrap: normal;
+  background-color: transparent !important;
+}
+.peek-mermaid-container:has(svg) {
+  height: auto !important;
+}
+div[data-graph='mermaid']:has(> .peek-loader) {
+  position: relative;
+  height: 100%;
+  min-height: 50px;
+}
 
 #peek-zoom-label {
   position: fixed;
@@ -269,68 +293,3 @@ th code {
   background-color: transparent !important;
   border: none !important;
 }
-
-/* ──────────────────────────────────────────────
-   Base colours
-   ────────────────────────────────────────────── */
-
-:root {
-  --peek-bg:      #0d1117;   /* same as code-block bg */
-  --peek-page:    #1a1b26;   /* Tokyonight page bg     */
-}
-
-/* Page background */
-html,
-body { background: var(--peek-page); }
-
-/* ──────────────────────────────────────────────
-   Mermaid block
-   ────────────────────────────────────────────── */
-
-/* 1 ▸ Outer wrapper – fills the text column */
-.peek-mermaid-container {
-  width: 100%!important;        /* full column, no right stripe                     */
-  margin: 1.25em 0;
-  padding: 16px;
-  border-radius: 6px;
-  background: #0d1117!important;/* same as code-block bg                            */
-  overflow-x: auto;
-  display: block;
-  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace;
-}
-
-/* 2 ▸ Inner host – natural width of the diagram */
-.peek-mermaid-container > div[data-graph="mermaid"]{
-  width: fit-content!important; /* shrink-wrap to SVG  (prevents pale stripe)       */
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0;
-  background: transparent!important; /* host itself transparent – wrapper shows     */
-  border: none!important;
-}
-
-/* 3 ▸ SVG – keep its intrinsic size */
-.peek-mermaid-container svg{
-  display: block;
-  width: auto!important;        /* natural width                                    */
-  max-width: 100%!important;    /* clamp if graph is very wide                      */
-  height: auto!important;
-  background: transparent!important;
-}
-
-/* 4 ▸ Loader placeholder also dark */
-div[data-graph="mermaid"]:has(> .peek-loader){
-  background: #0d1117!important;
-  min-height: 60px;
-}
-
-/* 5 ▸ ONLY recolor Mermaid’s big background canvases
-      (this removes the inner lighter stripe).       */
-.mermaid .background,
-.mermaid rect.background,
-.mermaid .flowchart-background{
-  fill: #0d1117!important;
-}
-
-/* 6 ▸ Remove accidental margin / padding Mermaid may add */
-.mermaid{margin:0!important;padding:0!important;}
