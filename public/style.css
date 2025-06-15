@@ -269,17 +269,24 @@ th code {
 
 
 /* ────────────────────────────────────────────────
-   PEEK - Mermaid dark-theme block  (Tokyonight)
+   Peek.nvim  •  Mermaid dark-theme (Tokyonight-night)
    ──────────────────────────────────────────────── */
 
-/* OUTER WRAPPER – spans text column so its bg always shows */
+/* 1 ▸ OUTER WRAPPER: spans the whole text column */
 .peek-mermaid-container {
-  width: 100% !important;        /* fill the column */
-  margin: 1.25em 0;              /* vertical spacing */
+  /* fill column */
+  width: 100% !important;
+
+  /* vertical rhythm */
+  margin: 1.25em 0;
   padding: 16px;
+
   border-radius: 6px;
-  background: #0d1117 !important;
+  background: #0d1117 !important;      /* dark bg everywhere */
+  display: flex;                       /* let inner host auto-size */
+  justify-content: center;             /* center the graph */
   overflow-x: auto;
+
   font-family:
     ui-monospace,
     SFMono-Regular,
@@ -290,41 +297,32 @@ th code {
     monospace;
 }
 
-/* INNER HOST – only as wide as the SVG itself */
+/* 2 ▸ INNER HOST: natural width of the SVG, no ghost gap */
 .peek-mermaid-container > div[data-graph="mermaid"] {
-  max-width: 100%;               /* but never overflow */
-  margin: 0 auto;                /* centred inside outer */
+  width: auto !important;       /* natural width */
+  max-width: 100%;              /* clamp if very wide */
   padding: 0 !important;
+  margin: 0;
   background: #0d1117 !important;
   border: none !important;
-  display: block;
 }
 
-/* keep container shrink-wrap so no light stripe appears */
-.peek-mermaid-container,
-.peek-mermaid-container > div,
-.peek-mermaid-container > div[data-graph="mermaid"] {
-  max-width: 100% !important;
-  width: fit-content;          /* <— stays, prevents stripe */
-  margin: 0 auto;
-  display: block;
-}
-
-/* let the SVG use its natural width, but clamp if it would overflow */
+/* 3 ▸ SVG itself */
 .peek-mermaid-container svg {
   display: block;
-  width: auto !important;      /* <— change from 100% to auto */
-  max-width: 100% !important;  /* never exceed text column */
+  width: auto !important;       /* keep natural size */
+  max-width: 100% !important;   /* but never overflow column */
   height: auto !important;
+  background: transparent !important;
 }
 
-/* ENSURE EVEN PLACEHOLDER DIVS ARE DARK */
+/* 4 ▸ Dark placeholder while the loader spins */
 div[data-graph="mermaid"]:has(> .peek-loader) {
   background: #0d1117 !important;
   min-height: 60px;
 }
 
-/* FORCE **EVERY** RECT, CLUSTER, SUBGRAPH, etc. to dark bg */
+/* 5 ▸ Force EVERY rect / background inside Mermaid to Tokyonight dark */
 .mermaid rect[fill],
 .mermaid rect[style*="fill"],
 .peek-mermaid-container rect[fill],
@@ -340,7 +338,7 @@ div[data-graph="mermaid"]:has(> .peek-loader) {
   fill: #0d1117 !important;
 }
 
-/* Remove any margin/padding Mermaid sneaks in */
+/* 6 ▸ Remove any default margin/padding Mermaid adds */
 .mermaid {
   margin: 0 !important;
   padding: 0 !important;
