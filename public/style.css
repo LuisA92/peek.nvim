@@ -139,10 +139,14 @@ body::-webkit-scrollbar-thumb {
   height: auto !important;
   width: 100% !important;
 }
+
 .peek-mermaid-container svg {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
   display: block;
-  width: 100% !important;
 }
+
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
   position: relative;
