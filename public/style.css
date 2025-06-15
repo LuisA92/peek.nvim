@@ -76,7 +76,7 @@ body::-webkit-scrollbar-thumb {
     Liberation Mono,
     monospace;
   word-wrap: normal;
-  background-color: var(--color-canvas-subtle);
+  background-color: #0d1117;
 }
 .peek-mermaid-container:has(svg) {
   height: auto !important;
