@@ -181,38 +181,25 @@ div[data-graph='mermaid']:has(> .peek-loader) {
 .yaml-metadata {
   margin: 1em 0;
   padding: 0.75em 1em;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    SF Mono,
-    Menlo,
-    Consolas,
-    Liberation Mono,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
   font-size: 13px;
   line-height: 1.4;
   color: #c9d1d9;
+  white-space: pre;
 }
 
-.yaml-metadata dl {
+.yaml-metadata pre {
   margin: 0;
-  display: grid;
-  grid-template-columns: max-content auto;
-  row-gap: 2px;
-  column-gap: 0.5em;
+  background: none;
+  padding: 0;
 }
 
-.yaml-metadata dt {
-  font-weight: 600;
-  color: #8b949e;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.yaml-metadata dd {
-  margin: 0;
-  color: #c9d1d9;
+.yaml-metadata code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  display: block;
 }

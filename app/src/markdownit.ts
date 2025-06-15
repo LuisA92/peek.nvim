@@ -10,6 +10,21 @@ import { default as MarkdownItTexmath } from 'https://esm.sh/markdown-it-texmath
 import Katex from 'https://esm.sh/katex@0.16.9';
 import yaml from 'https://esm.sh/js-yaml@4.1.0';
 
+
+function escapeHtml(str: string): string {
+  return str.replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case '&': return '&amp;';
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '"': return '&quot;';
+      case "'": return '&#039;';
+      default: return char;
+    }
+  });
+}
+
+
 const __args = parseArgs(Deno.args);
 
 const md = new MarkdownIt('default', {
@@ -136,10 +151,10 @@ export function render(markdown: string) {
 
   const match = markdown.match(frontmatterRegex);
   if (match) {
-    const yamlContent = match[1];
+    const yamlContent = match[1]; // This is the string we'll escape
     try {
-      const metadata = yaml.load(yamlContent);
-      metadataHTML = `<section class="yaml-metadata">${renderMetadataHTML(metadata)}</section>`;
+      const metadata = yaml.load(yamlContent); // still useful for validation
+      metadataHTML = `<section class="yaml-metadata"><pre><code>${escapeHtml(yamlContent)}</code></pre></section>`;
     } catch (err) {
       console.error("YAML parsing error:", err);
     }
@@ -158,9 +173,7 @@ export function render(markdown: string) {
   const contentHTML = md.renderer.render(tokens, md.options, { genId: uniqueIdGen() });
 
   return metadataHTML + contentHTML;
-}
-
-function renderMetadataHTML(metadata: Record<string, any>): string {
+}function renderMetadataHTML(metadata: Record<string, any>): string {
   const escapeHtml = md.utils.escapeHtml;
 
   return `
