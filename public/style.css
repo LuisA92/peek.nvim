@@ -129,15 +129,24 @@ body::-webkit-scrollbar-thumb {
   fill: #0d1117 !important;
 }
 
-.peek-mermaid-container svg {
+/* Prevent oversized ghost container beside mermaid graphs */
+.peek-mermaid-container,
+.peek-mermaid-container > div,
+.peek-mermaid-container > div[data-graph="mermaid"] {
+  max-width: 100% !important;
+  width: fit-content;
+  margin: 0 auto;
   display: block;
-  width: 100% !important;
 }
+
 .peek-mermaid-container:has(svg) {
   height: auto !important;
   width: 100% !important;
 }
-
+.peek-mermaid-container svg {
+  display: block;
+  width: 100% !important;
+}
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
   position: relative;
