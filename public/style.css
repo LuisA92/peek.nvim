@@ -212,21 +212,79 @@ div[data-graph='mermaid']:has(> .peek-loader) {
 }
 
 
-/* Global code block styling */
+/* Enhanced code block styling - add these rules to your existing CSS */
+
+/* Target all code elements */
+code {
+  background-color: #0d1117 !important;
+  color: #c9d1d9;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+}
+
+/* Target all pre elements (code blocks) */
 pre {
-  background-color: #0d1117;
+  background-color: #0d1117 !important;
   border-radius: 6px;
   padding: 0.75em 1em;
   overflow-x: auto;
   margin: 1em 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Target code inside pre elements */
 pre code {
-  background: none;
-  background-color:#0d1117;
+  background-color: #0d1117 !important;
+  color: #c9d1d9;
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
   font-size: 13px;
   line-height: 1.5;
   display: block;
   padding: 0;
+}
+
+/* Target language-specific code blocks */
+pre[class*="language-"],
+pre[class*="lang-"],
+code[class*="language-"],
+code[class*="lang-"] {
+  background-color: #0d1117 !important;
+}
+
+/* Specifically target Python code blocks */
+pre.language-python,
+pre.lang-python,
+code.language-python,
+code.lang-python,
+.hljs.language-python,
+.language-python {
+  background-color: #0d1117 !important;
+}
+
+/* Target highlight.js elements */
+.hljs,
+.hljs-code {
+  background-color: #0d1117 !important;
+  color: #c9d1d9;
+}
+
+/* Target any remaining code block variations */
+div[class*="highlight"] pre,
+div[class*="code"] pre,
+.highlight pre,
+.code-block,
+.codehilite {
+  background-color: #0d1117 !important;
+}
+
+/* Inline code within paragraphs */
+p code,
+li code,
+td code,
+th code {
+  background-color: #0d1117 !important;
+  color: #c9d1d9;
+  padding: 2px 4px;
+  border-radius: 3px;
 }
