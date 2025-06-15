@@ -102,6 +102,9 @@ body::-webkit-scrollbar-thumb {
   fill: #0d1117 !important;
 }
 
+.peek-mermaid-container:has(svg) {
+  height: auto !important;
+}
 
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
@@ -312,4 +315,5 @@ th code {
   color: inherit;
   padding: 0;
   display: block;
+  background-color: transparent;
 }
