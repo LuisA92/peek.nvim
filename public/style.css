@@ -131,12 +131,19 @@ body::-webkit-scrollbar-thumb {
 
 /* Prevent oversized ghost container beside mermaid graphs,
    but let it size naturally to the diagram’s width */
-.peek-mermaid-container,
-.peek-mermaid-container > div,
+/* Outer shell: full-width dark background */
+.peek-mermaid-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Inner host: auto-width for the graph, centered */
 .peek-mermaid-container > div[data-graph="mermaid"] {
-  max-width: 100% !important;   /* never overflow the page */
-  width: auto !important;       /* natural width, not forced to fit-content */
-  margin: 0 auto;               /* center it */
+  max-width: none !important;
+  width: auto !important;
+  margin: 0 auto;
   display: block;
 }
 
