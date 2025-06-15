@@ -301,13 +301,22 @@ th code {
   display: block;
 }
 
-/* SVG – let it choose its own size, but clamp if huge */
+/* keep container shrink-wrap so no light stripe appears */
+.peek-mermaid-container,
+.peek-mermaid-container > div,
+.peek-mermaid-container > div[data-graph="mermaid"] {
+  max-width: 100% !important;
+  width: fit-content;          /* <— stays, prevents stripe */
+  margin: 0 auto;
+  display: block;
+}
+
+/* let the SVG use its natural width, but clamp if it would overflow */
 .peek-mermaid-container svg {
   display: block;
-  width: auto !important;        /* NATURAL width (fixes tiny graph) */
-  max-width: 100% !important;    /* never exceed container */
+  width: auto !important;      /* <— change from 100% to auto */
+  max-width: 100% !important;  /* never exceed text column */
   height: auto !important;
-  background: transparent !important;
 }
 
 /* ENSURE EVEN PLACEHOLDER DIVS ARE DARK */
