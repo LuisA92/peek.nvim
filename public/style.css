@@ -60,8 +60,7 @@ body::-webkit-scrollbar-thumb {
   animation-direction: alternate-reverse;
 }
 
-
-/* Mermaid container (outer shell) */
+/* === Mermaid Block Container === */
 .peek-mermaid-container {
   margin: 1.5em 0;
   padding: 1em;
@@ -78,7 +77,7 @@ body::-webkit-scrollbar-thumb {
     monospace;
 }
 
-/* Ensure the graph host div is constrained properly */
+/* === Inner graph div (prevents ghost box artifacts) === */
 .peek-mermaid-container > div[data-graph='mermaid'] {
   display: block;
   max-width: 100%;
@@ -90,7 +89,7 @@ body::-webkit-scrollbar-thumb {
   border: none;
 }
 
-/* Force svg layout to be readable and occupy natural space */
+/* === SVG scaling & alignment === */
 .peek-mermaid-container svg {
   display: block;
   width: 100% !important;
@@ -100,32 +99,50 @@ body::-webkit-scrollbar-thumb {
   background-color: transparent !important;
 }
 
-/* Mermaid background fix (diagram canvas + ghost layers) */
-.mermaid .background,
-.mermaid rect.background,
-.mermaid g.background,
-.mermaid .flowchart-background,
-.mermaid .cluster rect,
-.mermaid .subgraph-background,
-.mermaid g[id*="cluster"] rect,
-.mermaid g[id*="subgraph"] rect,
-.mermaid rect[fill]:not([fill="none"]) {
-  fill: #0d1117 !important;
-}
-
-/* Remove any extra padding added by Mermaid */
-.mermaid {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* Mermaid loader placeholder area */
+/* === Handle ghost padding === */
 div[data-graph='mermaid']:has(> .peek-loader) {
   background-color: #0d1117 !important;
   min-height: 60px;
   height: auto;
   position: relative;
 }
+
+/* === NODE AND BACKGROUND COLORS INSIDE THE DIAGRAM === */
+
+/* Set the main graph canvas fill */
+.mermaid .background,
+.mermaid rect.background,
+.mermaid g.background {
+  fill: #0d1117 !important;
+}
+
+/* Target node boxes, flowchart background, clusters */
+.mermaid .flowchart-background,
+.mermaid .cluster rect,
+.mermaid rect[fill]:not([fill="none"]),
+.mermaid rect[style*="fill"],
+.peek-mermaid-container rect[fill]:not([fill="none"]),
+.peek-mermaid-container rect[style*="fill"] {
+  fill: #0d1117 !important;
+}
+
+/* Target nested graph groups (subgraphs/clusters) */
+.mermaid .subgraph-background,
+.mermaid rect[id*="subgraph"],
+.mermaid g[id*="subgraph"] rect,
+.mermaid .cluster-background,
+.mermaid g.cluster > rect,
+.mermaid g[id*="cluster"] rect {
+  fill: #0d1117 !important;
+}
+
+/* Optional: reduce gap under diagram */
+.peek-mermaid-container:has(svg) {
+  height: auto !important;
+  width: 100% !important;
+  margin-bottom: 1em;
+}
+
 
 #peek-zoom-label {
   position: fixed;
