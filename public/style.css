@@ -60,33 +60,8 @@ body::-webkit-scrollbar-thumb {
   animation-direction: alternate-reverse;
 }
 
-.peek-mermaid-container {
-  margin-top: 0;
-  margin-bottom: 16px;
-  padding: 16px;
-  border-radius: 6px;
-  overflow: auto;
-  line-height: 1.45;
-  font-size: 85%;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    SF Mono,
-    Menlo,
-    Consolas,
-    Liberation Mono,
-    monospace;
-  word-wrap: normal;
-  background-color: var(--color-canvas-subtle);
-}
-.peek-mermaid-container:has(svg) {
-  height: auto !important;
-}
-div[data-graph='mermaid']:has(> .peek-loader) {
-  position: relative;
-  height: 100%;
-  min-height: 50px;
-}
+
+
 
 
 
@@ -295,4 +270,74 @@ th code {
   border: none !important;
 }
 
+/* ──────────────────────────────────────────────
+   Base colours
+   ────────────────────────────────────────────── */
 
+:root {
+  --peek-bg:      #0d1117;   /* same as code-block bg */
+  --peek-page:    #1a1b26;   /* Tokyonight page bg     */
+}
+
+/* Page background */
+html,
+body { background: var(--peek-page); }
+
+/* ──────────────────────────────────────────────
+   Mermaid block
+   ────────────────────────────────────────────── */
+
+/* 1 ▸ Outer wrapper – spans text column, solid dark bar */
+.peek-mermaid-container {
+  width: 100%!important;            /* full column (no stripe)   */
+  margin: 1.25em 0;
+  padding: 16px;
+  border-radius: 6px;
+  background: var(--peek-bg)!important;
+  overflow-x: auto;
+  display: block;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace;
+}
+
+/* 2 ▸ Inner host – shrink-wrap to SVG width */
+.peek-mermaid-container>div[data-graph="mermaid"]{
+  width:fit-content!important;      /* natural width             */
+  max-width:100%;
+  margin:0 auto;
+  padding:0!important;
+  background:var(--peek-bg)!important;
+  border:none!important;
+}
+
+/* 3 ▸ SVG – intrinsic size; clamp if diagram huge */
+.peek-mermaid-container svg{
+  display:block;
+  width:auto!important;             /* DON’T force 100% – keeps size */
+  max-width:100%!important;         /* but never overflow column     */
+  height:auto!important;
+  background:transparent!important;
+}
+
+/* 4 ▸ Loader placeholder area */
+div[data-graph="mermaid"]:has(> .peek-loader){
+  background:var(--peek-bg)!important;
+  min-height:60px;
+}
+
+/* 5 ▸ Remove Mermaid’s big dark canvas so the
+       container’s own bg shows instead.          */
+.mermaid .background,
+.mermaid rect.background,
+.mermaid .flowchart-background{display:none!important;}
+
+/* 6 ▸ Force EVERY other rectangle (nodes, clusters, etc.)
+       to the same dark background.                */
+.mermaid rect[fill],
+.mermaid rect[style*="fill"],
+.peek-mermaid-container rect[fill],
+.peek-mermaid-container rect[style*="fill"]{
+  fill:var(--peek-bg)!important;
+}
+
+/* 7 ▸ Clean up any default margin / padding */
+.mermaid{margin:0!important;padding:0!important;}
