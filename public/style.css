@@ -60,6 +60,34 @@ body::-webkit-scrollbar-thumb {
   animation-direction: alternate-reverse;
 }
 
+.peek-mermaid-container {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  line-height: 1.45;
+  font-size: 85%;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+  word-wrap: normal;
+  background-color: var(--color-canvas-subtle);
+}
+.peek-mermaid-container:has(svg) {
+  height: auto !important;
+}
+div[data-graph='mermaid']:has(> .peek-loader) {
+  position: relative;
+  height: 100%;
+  min-height: 50px;
+}
+
 
 
 #peek-zoom-label {
@@ -268,77 +296,3 @@ th code {
 }
 
 
-/* ──────────────────────────────────────────────
-   Peek.nvim  ▸  Mermaid dark-theme (Tokyonight)
-   Works:  • full-width dark bar (no stripe)
-           • diagram shows at natural size
-           • every node / rect same dark bg
-   ────────────────────────────────────────────── */
-
-/* 1 ▸ outer wrapper - full column width, dark background */
-.peek-mermaid-container {
-  width: 100% !important;
-  margin: 1.25em 0;
-  padding: 16px;
-  border-radius: 6px;
-  background: #0d1117 !important;
-  overflow-x: auto;
-  display: flex;              /* allows inner host to shrink/expand */
-  justify-content: center;    /* center the graph horizontally */
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    SF Mono,
-    Menlo,
-    Consolas,
-    Liberation Mono,
-    monospace;
-}
-
-/* 2 ▸ inner host div – shrink-wrap to SVG width */
-.peek-mermaid-container > div[data-graph="mermaid"] {
-  width: fit-content !important;  /* natural width prevents stripe */
-  max-width: 100%;
-  margin: 0;
-  padding: 0 !important;
-  background: #0d1117 !important;
-  border: none !important;
-  display: block;
-}
-
-/* 3 ▸ SVG – let the browser keep the intrinsic width/height
-       (DO NOT force width:auto or 100% – that caused the collapse) */
-.peek-mermaid-container svg {
-  display: block;
-  max-width: 100%;          /* clamp if diagram is extremely wide */
-  height: auto;
-  background: transparent !important;
-}
-
-/* 4 ▸ loader placeholder also dark */
-div[data-graph="mermaid"]:has(> .peek-loader) {
-  background: #0d1117 !important;
-  min-height: 60px;
-}
-
-/* 5 ▸ force EVERY rectangle inside Mermaid to the same dark colour */
-.mermaid rect[fill],
-.mermaid rect[style*="fill"],
-.peek-mermaid-container rect[fill],
-.peek-mermaid-container rect[style*="fill"],
-.mermaid .background,
-.mermaid rect.background,
-.mermaid g.background,
-.mermaid .flowchart-background,
-.mermaid .cluster rect,
-.mermaid .subgraph-background,
-.mermaid g[id*="cluster"] rect,
-.mermaid g[id*="subgraph"] rect {
-  fill: #0d1117 !important;
-}
-
-/* 6 ▸ remove any default margin/padding Mermaid injects */
-.mermaid {
-  margin: 0 !important;
-  padding: 0 !important;
-}
