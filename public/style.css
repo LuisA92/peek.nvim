@@ -292,7 +292,6 @@ th code {
 
 /* INNER HOST – only as wide as the SVG itself */
 .peek-mermaid-container > div[data-graph="mermaid"] {
-  width: max-content !important; /* natural diagram width */
   max-width: 100%;               /* but never overflow */
   margin: 0 auto;                /* centred inside outer */
   padding: 0 !important;
