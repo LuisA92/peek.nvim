@@ -68,6 +68,26 @@ body::-webkit-scrollbar-thumb {
   background-color: #0d1117 !important;
 }
 
+.peek-mermaid-container {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  line-height: 1.45;
+  font-size: 85%;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+  word-wrap: normal;
+}
+
+
 /* Target mermaid diagram backgrounds */
 .mermaid .background,
 .mermaid rect.background,
@@ -81,11 +101,6 @@ body::-webkit-scrollbar-thumb {
   fill: #0d1117 !important;
 }
 
-
-/* Force mermaid container backgrounds */
-div[data-graph="mermaid"] {
-  background-color: #0d1117 !important;
-}
 
 /* Target mermaid loader containers */
 div[data-graph='mermaid']:has(> .peek-loader) {
