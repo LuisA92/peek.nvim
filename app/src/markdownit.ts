@@ -8,6 +8,7 @@ import { default as MarkdownItFootnote } from 'https://esm.sh/markdown-it-footno
 import { default as MarkdownItTaskLists } from 'https://esm.sh/markdown-it-task-lists@2.1.1';
 import { default as MarkdownItTexmath } from 'https://esm.sh/markdown-it-texmath@1.0.0';
 import Katex from 'https://esm.sh/katex@0.16.9';
+import { default as MarkdownItObsidianCallouts } from 'https://esm.sh/markdown-it-obsidian-callouts@0.3.3';
 import yaml from 'https://esm.sh/js-yaml@4.1.0';
 
 
@@ -54,7 +55,8 @@ const md = new MarkdownIt('default', {
       strict: false,
       throwOnError: false,
     },
-  });
+  })
+  .use(MarkdownItObsidianCallouts);
 
 md.renderer.rules.link_open = (tokens, idx, options) => {
   const token = tokens[idx];
