@@ -9,6 +9,9 @@ import { default as MarkdownItTaskLists } from 'https://esm.sh/markdown-it-task-
 import { default as MarkdownItTexmath } from 'https://esm.sh/markdown-it-texmath@1.0.0';
 import Katex from 'https://esm.sh/katex@0.16.9';
 import { default as MarkdownItObsidianCallouts } from 'https://esm.sh/markdown-it-obsidian-callouts@0.3.3';
+import { default as MarkdownItMark } from 'https://esm.sh/markdown-it-mark@4.0.0';
+import { default as MarkdownItSub } from 'https://esm.sh/markdown-it-sub@2.0.0';
+import { default as MarkdownItSup } from 'https://esm.sh/markdown-it-sup@2.0.0';
 import yaml from 'https://esm.sh/js-yaml@4.1.0';
 
 
@@ -27,6 +30,66 @@ function escapeHtml(str: string): string {
 
 
 const __args = parseArgs(Deno.args);
+
+function parseStyMacros(content: string): Record<string, string> {
+  const macros: Record<string, string> = {};
+
+  // Strip comments
+  const lines = content.replace(/%.*$/gm, '').replace(/\r\n/g, '\n');
+
+  // Skip \makeatletter...\makeatother blocks
+  const cleaned = lines.replace(
+    /\\makeatletter[\s\S]*?\\makeatother/g,
+    '',
+  );
+
+  // \newcommand{\cmd}{expansion} or \newcommand{\cmd}[n]{expansion}
+  // \renewcommand{\cmd}{expansion} or \renewcommand{\cmd}[n]{expansion}
+  const newcmdRegex = /\\(?:re)?newcommand\{?(\\[a-zA-Z]+)\}?\s*(?:\[(\d+)\])?\s*\{((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}/g;
+  let m;
+  while ((m = newcmdRegex.exec(cleaned)) !== null) {
+    const [, name, nargs, body] = m;
+    if (nargs) {
+      // KaTeX supports #1..#9 args in macro expansion
+      macros[name] = body;
+    } else {
+      macros[name] = body;
+    }
+  }
+
+  // \DeclareMathOperator{\cmd}{text}
+  const opRegex = /\\DeclareMathOperator\{?(\\[a-zA-Z]+)\}?\s*\{((?:[^{}]|\{[^{}]*\})*)\}/g;
+  while ((m = opRegex.exec(cleaned)) !== null) {
+    const [, name, body] = m;
+    macros[name] = `\\operatorname{${body}}`;
+  }
+
+  // \def\cmd{expansion}
+  const defRegex = /\\def\s*(\\[a-zA-Z]+)\s*\{((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}/g;
+  while ((m = defRegex.exec(cleaned)) !== null) {
+    const [, name, body] = m;
+    macros[name] = body;
+  }
+
+  return macros;
+}
+
+function loadPreambleMacros(): Record<string, string> {
+  const preamblePath = __args['preamble'];
+  if (!preamblePath) return {};
+
+  try {
+    const content = Deno.readTextFileSync(preamblePath);
+    const macros = parseStyMacros(content);
+    console.log(`Loaded ${Object.keys(macros).length} macros from ${preamblePath}`);
+    return macros;
+  } catch (e) {
+    console.error(`Failed to load preamble from ${preamblePath}: ${e.message}`);
+    return {};
+  }
+}
+
+const preambleMacros = loadPreambleMacros();
 
 const md = new MarkdownIt('default', {
   html: true,
@@ -51,12 +114,15 @@ const md = new MarkdownIt('default', {
     engine: Katex,
     delimiters: ['gitlab', 'dollars'],
     katexOptions: {
-      macros: { '\\R': '\\mathbb{R}' },
+      macros: { ...preambleMacros },
       strict: false,
       throwOnError: false,
     },
   })
-  .use(MarkdownItObsidianCallouts);
+  .use(MarkdownItObsidianCallouts)
+  .use(MarkdownItMark)
+  .use(MarkdownItSub)
+  .use(MarkdownItSup);
 
 md.renderer.rules.link_open = (tokens, idx, options) => {
   const token = tokens[idx];

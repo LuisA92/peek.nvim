@@ -10,6 +10,7 @@ local config = {
   throttle_time = 'auto',
   app = 'webview',
   filetype = { 'markdown' },
+  preamble = '',
 }
 
 local function optional(predicate)
@@ -68,6 +69,7 @@ function module.setup(incoming)
     throttle_time = { incoming.throttle_time, optional(one_of({ 'auto', of_type('number') })), '"auto" or number' },
     app = { incoming.app, optional(one_of({ of_type('string'), every(of_type('string')) })), 'string or string[]' },
     filetype = { incoming.filetype, optional(every(of_type('string'))), 'string[]' },
+    preamble = { incoming.preamble, 'string', true },
   })
 
   config = vim.tbl_extend('force', config, incoming)

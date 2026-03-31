@@ -37,6 +37,11 @@ function module.setup()
     table.insert(args, '--syntax')
   end
 
+  local preamble = config.get('preamble')
+  if preamble and preamble ~= '' then
+    table.insert(args, '--preamble=' .. vim.fn.expand(preamble))
+  end
+
   cmd = vim.list_extend({
     'deno',
     'task',
