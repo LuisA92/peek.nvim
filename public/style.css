@@ -404,6 +404,50 @@ details[open].callout > .callout-title > .callout-fold {
   height: 1.2em;
 }
 
+/* Math/Academic Callout Types */
+:root {
+  --callout-theorem: 100, 80, 220;
+  --callout-lemma: 140, 100, 200;
+  --callout-definition: 0, 160, 180;
+  --callout-corollary: 160, 80, 180;
+  --callout-proposition: 80, 100, 220;
+  --callout-proof: 140, 140, 150;
+  --callout-remark: 80, 160, 100;
+  --callout-conjecture: 200, 140, 0;
+  --callout-axiom: 60, 100, 200;
+  --callout-notation: 100, 130, 170;
+}
+.callout[data-callout=theorem], .callout[data-callout=thm] {
+  --callout-color: var(--callout-theorem);
+}
+.callout[data-callout=lemma], .callout[data-callout=lem] {
+  --callout-color: var(--callout-lemma);
+}
+.callout[data-callout=definition], .callout[data-callout=def] {
+  --callout-color: var(--callout-definition);
+}
+.callout[data-callout=corollary], .callout[data-callout=cor] {
+  --callout-color: var(--callout-corollary);
+}
+.callout[data-callout=proposition], .callout[data-callout=prop] {
+  --callout-color: var(--callout-proposition);
+}
+.callout[data-callout=proof], .callout[data-callout=pf] {
+  --callout-color: var(--callout-proof);
+}
+.callout[data-callout=remark], .callout[data-callout=rmk] {
+  --callout-color: var(--callout-remark);
+}
+.callout[data-callout=conjecture] {
+  --callout-color: var(--callout-conjecture);
+}
+.callout[data-callout=axiom] {
+  --callout-color: var(--callout-axiom);
+}
+.callout[data-callout=notation] {
+  --callout-color: var(--callout-notation);
+}
+
 /* YAML Metadata Styling (monospace + compact) */
 .yaml-metadata {
   margin: 1em 0;
