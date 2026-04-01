@@ -117,6 +117,10 @@ module.close = ensure_init(function()
   app.stop()
 end)
 
+module.theme = ensure_init(function(theme)
+  app.theme(theme)
+end)
+
 module.is_open = ensure_init(function()
   return not not augroup
 end)

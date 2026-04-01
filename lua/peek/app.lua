@@ -86,6 +86,10 @@ function module.init(on_exit)
   module.base = function(path)
     chansend(channel, message({ 'base', path }))
   end
+
+  module.theme = function(theme)
+    chansend(channel, message({ 'theme', theme }))
+  end
 end
 
 module.stop = function()

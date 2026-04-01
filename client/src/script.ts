@@ -134,6 +134,9 @@ addEventListener('DOMContentLoaded', () => {
       case 'base':
         base.href = data.base;
         break;
+      case 'theme':
+        body.setAttribute('data-theme', data.theme);
+        break;
       default:
         break;
     }

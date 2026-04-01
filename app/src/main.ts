@@ -56,6 +56,13 @@ async function init(socket: WebSocket) {
           })));
           break;
         }
+        case 'theme': {
+          socket.send(encoder.encode(JSON.stringify({
+            action,
+            theme: decoder.decode((await generator.next()).value!),
+          })));
+          break;
+        }
         default: {
           break;
         }
