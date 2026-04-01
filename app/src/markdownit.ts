@@ -193,6 +193,18 @@ md.renderer.rules.fence = (() => {
     const content = token.content.trim();
     const lang = token.info.trim().toLowerCase();
 
+    // TikZ blocks (```tikz)
+    if (lang === 'tikz') {
+      return `
+        <div
+          class="peek-tikz-container"
+          data-line-begin="${token.attrGet('data-line-begin')}"
+        >
+          <script type="text/tikz">${content}</script>
+        </div>
+      `;
+    }
+
     // Pseudocode blocks (```pseudo or ```algorithm)
     if (lang === 'pseudo' || lang === 'algorithm') {
       try {
