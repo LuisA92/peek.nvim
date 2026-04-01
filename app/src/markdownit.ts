@@ -13,6 +13,7 @@ import { default as MarkdownItMark } from 'https://esm.sh/markdown-it-mark@4.0.0
 import { default as MarkdownItSub } from 'https://esm.sh/markdown-it-sub@2.0.0';
 import { default as MarkdownItSup } from 'https://esm.sh/markdown-it-sup@2.0.0';
 import yaml from 'https://esm.sh/js-yaml@4.1.0';
+import pseudocode from 'https://esm.sh/pseudocode@2.4.1?bundle-deps';
 
 
 function escapeHtml(str: string): string {
@@ -190,6 +191,27 @@ md.renderer.rules.fence = (() => {
   return (tokens, idx, options, env, self) => {
     const token = tokens[idx];
     const content = token.content.trim();
+    const lang = token.info.trim().toLowerCase();
+
+    // Pseudocode blocks (```pseudo or ```algorithm)
+    if (lang === 'pseudo' || lang === 'algorithm') {
+      try {
+        const html = pseudocode.renderToString(content, {
+          lineNumber: true,
+          noEnd: false,
+        });
+        return `
+          <div
+            class="pseudocode-output"
+            data-line-begin="${token.attrGet('data-line-begin')}"
+          >
+            ${html}
+          </div>
+        `;
+      } catch (e) {
+        return `<pre class="pseudocode-error" data-line-begin="${token.attrGet('data-line-begin')}">${escapeHtml(e.message)}</pre>`;
+      }
+    }
 
     if (regex.test(content)) {
       const match = regex.exec(content);
