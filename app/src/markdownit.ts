@@ -13,7 +13,7 @@ import { default as MarkdownItMark } from 'https://esm.sh/markdown-it-mark@4.0.0
 import { default as MarkdownItSub } from 'https://esm.sh/markdown-it-sub@2.0.0';
 import { default as MarkdownItSup } from 'https://esm.sh/markdown-it-sup@2.0.0';
 import yaml from 'https://esm.sh/js-yaml@4.1.0';
-import pseudocode from 'https://esm.sh/pseudocode@2.4.1?bundle-deps';
+import pseudocode from './pseudocode.bundle.mjs';
 
 
 function escapeHtml(str: string): string {
