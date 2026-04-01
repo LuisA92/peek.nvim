@@ -195,21 +195,10 @@ addEventListener('DOMContentLoaded', () => {
         ) {
           toEl.style.height = fromEl.style.height;
         }
-        // Preserve already-rendered TikZ containers (SVG replaces the script tag)
-        if (
-          fromEl.classList.contains('peek-tikz-container') &&
-          fromEl.querySelector('svg') &&
-          toEl.classList.contains('peek-tikz-container')
-        ) {
-          return false;
-        }
         return !fromEl.isEqualNode(toEl);
       },
       onBeforeElChildrenUpdated(_, toEl) {
-        if (toEl.getAttribute('data-graph') === 'mermaid') return false;
-        // Don't update children of tikz containers that have rendered SVGs
-        if (toEl.classList.contains('peek-tikz-container') && toEl.querySelector('svg')) return false;
-        return true;
+        return toEl.getAttribute('data-graph') !== 'mermaid';
       },
     };
 

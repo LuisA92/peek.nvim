@@ -541,25 +541,3 @@ details[open].callout > .callout-title > .callout-fold {
   color: #f7768e;
   padding: 1em;
 }
-
-/* TikZ diagrams */
-.peek-tikz-container {
-  text-align: center;
-  margin: 1em 0;
-  overflow-x: auto;
-}
-.peek-tikz-container svg {
-  max-width: 100%;
-}
-.peek-tikz-container .tikzjax-loader {
-  display: inline-block;
-  width: 2em;
-  height: 2em;
-  border: 3px solid #333;
-  border-top: 3px solid #7aa2f7;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
