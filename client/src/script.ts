@@ -136,44 +136,49 @@ addEventListener('DOMContentLoaded', () => {
         break;
       case 'theme':
         body.setAttribute('data-theme', data.theme);
+        reRenderMermaid(data.theme);
         break;
       default:
         break;
     }
   };
 
+  const mermaidParser = new DOMParser();
+
+  async function renderMermaidEl(el: Element) {
+    const svg = await mermaid.render(
+      `${el.id}-svg`,
+      el.getAttribute('data-graph-definition')!,
+      el,
+    );
+
+    if (svg) {
+      const svgElement = mermaidParser.parseFromString(svg, 'text/html').body;
+      el.appendChild(svgElement);
+      el.parentElement?.style.setProperty(
+        'height',
+        window.getComputedStyle(svgElement).getPropertyValue('height'),
+      );
+    }
+  }
+
+  const renderMermaid = debounce(() => {
+    Array.from(markdownBody.querySelectorAll('div[data-graph="mermaid"]'))
+      .filter((el) => !el.querySelector('svg'))
+      .forEach(renderMermaidEl);
+  }, 200);
+
+  function reRenderMermaid(theme: string) {
+    mermaid.init(theme);
+    markdownBody.querySelectorAll('div[data-graph="mermaid"]').forEach((el) => {
+      const svg = el.querySelector('svg');
+      if (svg) svg.parentElement?.remove();
+    });
+    renderMermaid();
+  }
+
   const onPreview = (() => {
     mermaid.init();
-
-    const renderMermaid = debounce(
-      (() => {
-        const parser = new DOMParser();
-
-        async function render(el: Element) {
-          const svg = await mermaid.render(
-            `${el.id}-svg`,
-            el.getAttribute('data-graph-definition')!,
-            el,
-          );
-
-          if (svg) {
-            const svgElement = parser.parseFromString(svg, 'text/html').body;
-            el.appendChild(svgElement);
-            el.parentElement?.style.setProperty(
-              'height',
-              window.getComputedStyle(svgElement).getPropertyValue('height'),
-            );
-          }
-        }
-
-        return () => {
-          Array.from(markdownBody.querySelectorAll('div[data-graph="mermaid"]'))
-            .filter((el) => !el.querySelector('svg'))
-            .forEach(render);
-        };
-      })(),
-      200,
-    );
 
     const morphdomOptions: Parameters<typeof morphdom>[2] = {
       childrenOnly: true,
