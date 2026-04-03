@@ -10,6 +10,8 @@
   --peek-scrollbar-thumb: #555;
   --peek-scope-line: #555;
   --peek-pseudo-border: #ccc;
+  --peek-highlight-bg: rgba(100, 149, 237, 0.08);
+  --peek-highlight-border: rgba(100, 149, 237, 0.6);
 }
 [data-theme="light"] {
   --peek-bg: #ffffff;
@@ -23,6 +25,8 @@
   --peek-scrollbar-thumb: #bbb;
   --peek-scope-line: #bbb;
   --peek-pseudo-border: #999;
+  --peek-highlight-bg: rgba(59, 130, 246, 0.06);
+  --peek-highlight-border: rgba(59, 130, 246, 0.5);
 }
 html,
 body {
@@ -50,6 +54,13 @@ body::-webkit-scrollbar-thumb {
   min-height: 100vh;
   overflow-x: hidden;
   background-color: transparent;
+}
+/* Highlight bar: marks the block corresponding to the Neovim cursor line */
+.peek-highlight-line {
+  border-left: 3px solid var(--peek-highlight-border);
+  background-color: var(--peek-highlight-bg);
+  border-radius: 2px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 @media (max-width: 767px) {
   .markdown-body {

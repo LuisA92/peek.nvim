@@ -421,6 +421,9 @@ addEventListener('DOMContentLoaded', ()=>{
                 return node;
             },
             onBeforeElUpdated: (fromEl, toEl)=>{
+                if (fromEl.classList.contains('peek-highlight-line')) {
+                    toEl.classList.add('peek-highlight-line');
+                }
                 if (fromEl.hasAttribute('open')) {
                     toEl.setAttribute('open', 'true');
                 } else if (fromEl.classList.contains('peek-mermaid-container') && toEl.classList.contains('peek-mermaid-container')) {
@@ -453,6 +456,7 @@ addEventListener('DOMContentLoaded', ()=>{
         };
     })();
     const onScroll = (()=>{
+        let highlightedEl = null;
         function getBlockOnLine(line) {
             return findLast(blocks, (block)=>line >= Number(block[0].dataset.lineBegin));
         }
@@ -470,6 +474,13 @@ addEventListener('DOMContentLoaded', ()=>{
             if (!blocks || !blocks[0] || !source) return;
             const block = getBlockOnLine(data.line) || blocks[0];
             const target = block[0];
+            if (highlightedEl && highlightedEl !== target) {
+                highlightedEl.classList.remove('peek-highlight-line');
+            }
+            if (target) {
+                target.classList.add('peek-highlight-line');
+                highlightedEl = target;
+            }
             const next = target ? block[1] : blocks[0][0];
             const offsetBegin = target ? getOffset(target) : 0;
             const offsetEnd = next ? getOffset(next) : offsetBegin + target.getBoundingClientRect().height;
