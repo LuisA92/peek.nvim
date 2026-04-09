@@ -56,6 +56,13 @@ async function init(socket: WebSocket) {
           })));
           break;
         }
+        case 'theme': {
+          socket.send(encoder.encode(JSON.stringify({
+            action,
+            theme: decoder.decode((await generator.next()).value!),
+          })));
+          break;
+        }
         default: {
           break;
         }
@@ -89,6 +96,7 @@ async function init(socket: WebSocket) {
           `--url=${new URL('index.html', Deno.mainModule).href}`,
           `--theme=${__args['theme']}`,
           `--serverUrl=${serverUrl}`,
+          `--font-family=${__args['font-family'] || ''}`,
         ],
         stdin: 'null',
       });
@@ -126,7 +134,7 @@ async function init(socket: WebSocket) {
     const serverUrl = `${hostname.replace('0.0.0.0', 'localhost')}:${port}`;
     logger.info(`listening on ${serverUrl}`);
     const url = new URL(`http://${serverUrl}`);
-    const searchParams = new URLSearchParams({ theme: __args.theme });
+    const searchParams = new URLSearchParams({ theme: __args.theme, fontFamily: __args['font-family'] || '' });
     url.search = searchParams.toString();
 
     open(url.href, { app: app !== 'browser' && app })

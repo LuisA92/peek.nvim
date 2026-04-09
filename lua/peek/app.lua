@@ -42,6 +42,11 @@ function module.setup()
     table.insert(args, '--preamble=' .. vim.fn.expand(preamble))
   end
 
+  local font_family = config.get('font_family')
+  if font_family and font_family ~= '' then
+    table.insert(args, '--font-family=' .. font_family)
+  end
+
   cmd = vim.list_extend({
     'deno',
     'task',
@@ -85,6 +90,10 @@ function module.init(on_exit)
 
   module.base = function(path)
     chansend(channel, message({ 'base', path }))
+  end
+
+  module.theme = function(theme)
+    chansend(channel, message({ 'theme', theme }))
   end
 end
 

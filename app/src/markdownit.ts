@@ -13,6 +13,7 @@ import { default as MarkdownItMark } from 'https://esm.sh/markdown-it-mark@4.0.0
 import { default as MarkdownItSub } from 'https://esm.sh/markdown-it-sub@2.0.0';
 import { default as MarkdownItSup } from 'https://esm.sh/markdown-it-sup@2.0.0';
 import yaml from 'https://esm.sh/js-yaml@4.1.0';
+import pseudocode from './pseudocode.bundle.mjs';
 
 
 function escapeHtml(str: string): string {
@@ -124,15 +125,38 @@ const md = new MarkdownIt('default', {
   .use(MarkdownItSub)
   .use(MarkdownItSup);
 
+// Obsidian-style image resizing: ![alt|400](path) or ![|400x300](path)
+md.renderer.rules.image = (tokens, idx, options, _env, self) => {
+  const token = tokens[idx];
+  const alt = token.attrGet('alt') || token.children?.map((t) => t.content).join('') || '';
+  const sizeMatch = alt.match(/^(.*?)\|(\d+)(?:x(\d+))?$/);
+  if (sizeMatch) {
+    const [, cleanAlt, w, h] = sizeMatch;
+    token.attrSet('alt', cleanAlt.trim());
+    token.attrSet('width', w);
+    if (h) token.attrSet('height', h);
+    // Also update children so default renderer picks up the clean alt
+    if (token.children) {
+      const last = token.children[token.children.length - 1];
+      if (last) last.content = last.content.replace(/\|\d+(?:x\d+)?$/, '').trim();
+    }
+  }
+  return self.renderToken(tokens, idx, options);
+};
+
 md.renderer.rules.link_open = (tokens, idx, options) => {
   const token = tokens[idx];
   const href = token.attrGet('href');
 
   if (href && href.startsWith('#')) {
     token.attrSet('onclick', `location.hash='${href}'`);
+    token.attrSet('href', 'javascript:void(0)');
+  } else if (href && /^https?:\/\//.test(href)) {
+    token.attrSet('target', '_blank');
+    token.attrSet('rel', 'noopener noreferrer');
+  } else {
+    token.attrSet('href', 'javascript:void(0)');
   }
-
-  token.attrSet('href', 'javascript:return');
 
   return md.renderer.renderToken(tokens, idx, options);
 };
@@ -180,6 +204,9 @@ md.renderer.rules.math_block_eqno = (() => {
   };
 })();
 
+// Track pseudocode algorithm counter per render pass
+let pseudocodeCounter = 0;
+
 md.renderer.rules.fence = (() => {
   const fence = md.renderer.rules.fence!;
   const escapeHtml = md.utils.escapeHtml;
@@ -190,6 +217,29 @@ md.renderer.rules.fence = (() => {
   return (tokens, idx, options, env, self) => {
     const token = tokens[idx];
     const content = token.content.trim();
+    const lang = token.info.trim().toLowerCase();
+
+    // Pseudocode blocks (```pseudo or ```algorithm)
+    if (lang === 'pseudo' || lang === 'algorithm') {
+      try {
+        const html = pseudocode.renderToString(content, {
+          lineNumber: true,
+          noEnd: false,
+          captionCount: pseudocodeCounter,
+        });
+        pseudocodeCounter++;
+        return `
+          <div
+            class="pseudocode-output"
+            data-line-begin="${token.attrGet('data-line-begin')}"
+          >
+            ${html}
+          </div>
+        `;
+      } catch (e) {
+        return `<pre class="pseudocode-error" data-line-begin="${token.attrGet('data-line-begin')}">${escapeHtml(e.message)}</pre>`;
+      }
+    }
 
     if (regex.test(content)) {
       const match = regex.exec(content);
@@ -209,7 +259,8 @@ md.renderer.rules.fence = (() => {
       `;
     }
 
-    return fence(tokens, idx, options, env, self);
+    const fenceHtml = fence(tokens, idx, options, env, self);
+    return `<div class="peek-code-wrapper">${fenceHtml}<button class="peek-copy-btn">Copy</button></div>`;
   };
 })();
 
@@ -237,6 +288,9 @@ export function render(markdown: string) {
       token.attrSet('data-line-begin', String(token.map[0] + 1));
     }
   });
+
+  // Reset pseudocode algorithm counter for each full render
+  pseudocodeCounter = 0;
 
   const contentHTML = md.renderer.render(tokens, md.options, { genId: uniqueIdGen() });
 

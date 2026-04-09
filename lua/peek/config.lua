@@ -11,6 +11,7 @@ local config = {
   app = 'webview',
   filetype = { 'markdown' },
   preamble = '',
+  font_family = '',
 }
 
 local function optional(predicate)
@@ -70,6 +71,7 @@ function module.setup(incoming)
     app = { incoming.app, optional(one_of({ of_type('string'), every(of_type('string')) })), 'string or string[]' },
     filetype = { incoming.filetype, optional(every(of_type('string'))), 'string[]' },
     preamble = { incoming.preamble, 'string', true },
+    font_family = { incoming.font_family, 'string', true },
   })
 
   config = vim.tbl_extend('force', config, incoming)

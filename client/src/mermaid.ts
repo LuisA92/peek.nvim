@@ -3,12 +3,13 @@ import { getInjectConfig } from './util.ts';
 
 declare const mermaid: typeof Mermaid;
 
-function init() {
+function init(theme?: string) {
   const peek = getInjectConfig();
+  const t = theme || peek?.theme;
 
   mermaid.initialize({
     startOnLoad: false,
-    theme: peek?.theme === 'light' ? 'neutral' : 'dark',
+    theme: t === 'light' ? 'neutral' : 'dark',
     flowchart: {
       htmlLabels: false,
     },
