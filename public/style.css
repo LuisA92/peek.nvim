@@ -1,21 +1,22 @@
 [data-theme="dark"] {
-  --peek-bg: #1a1b26;
-  --peek-code-bg: #0d1117;
-  --peek-code-fg: #c9d1d9;
-  --peek-pseudo-fg: #c0caf5;
-  --peek-pseudo-keyword: #bb9af7;
-  --peek-pseudo-funcname: #7aa2f7;
-  --peek-pseudo-comment: #565f89;
-  --peek-pseudo-linenum: #565f89;
-  --peek-pseudo-error: #f7768e;
-  --peek-yaml-bg: rgba(255, 255, 255, 0.04);
-  --peek-yaml-border: rgba(255, 255, 255, 0.1);
-  --peek-yaml-fg: #c9d1d9;
-  --peek-scrollbar-thumb: #555;
-  --peek-scope-line: #555;
-  --peek-pseudo-border: #ccc;
-  --peek-highlight-bg: rgba(100, 149, 237, 0.08);
-  --peek-highlight-border: rgba(100, 149, 237, 0.6);
+  /* carbonfox palette (EdenEast/nightfox.nvim) */
+  --peek-bg: #161616;
+  --peek-code-bg: #0c0c0d;
+  --peek-code-fg: #f2f4f8;
+  --peek-pseudo-fg: #f2f4f8;
+  --peek-pseudo-keyword: #be95ff;
+  --peek-pseudo-funcname: #33b1ff;
+  --peek-pseudo-comment: #6f6f6f;
+  --peek-pseudo-linenum: #6f6f6f;
+  --peek-pseudo-error: #ee5396;
+  --peek-yaml-bg: rgba(242, 244, 248, 0.04);
+  --peek-yaml-border: rgba(242, 244, 248, 0.1);
+  --peek-yaml-fg: #f2f4f8;
+  --peek-scrollbar-thumb: #525252;
+  --peek-scope-line: #525252;
+  --peek-pseudo-border: #b6b8bb;
+  --peek-highlight-bg: rgba(51, 177, 255, 0.08);
+  --peek-highlight-border: rgba(51, 177, 255, 0.6);
 }
 [data-theme="light"] {
   --peek-bg: #ffffff;
@@ -40,6 +41,18 @@ body {
   content: '';
   display: block;
   height: 50vh;
+}
+.markdown-body table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.markdown-body table::-webkit-scrollbar {
+  height: 4px;
+}
+.markdown-body table::-webkit-scrollbar-thumb {
+  background: var(--peek-scrollbar-thumb);
+  border-radius: 2px;
 }
 body::-webkit-scrollbar {
   width: 4px;
